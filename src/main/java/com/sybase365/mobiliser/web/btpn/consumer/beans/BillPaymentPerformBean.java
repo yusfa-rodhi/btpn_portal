@@ -38,6 +38,40 @@ public class BillPaymentPerformBean implements Serializable {
 	private String accountNumber;
 	private String additionalData;
 	private String customerName;
+	
+	private String meterNumber;
+	private String tarif;
+	private String daya;
+	private String materai;
+	private String ppn;
+	private String ppj;
+	private String angsuran;
+	private String tokenAmount;
+	private String kwh;
+	private String token;
+	private String monthYear;
+	private String stdMeter;
+	private String dateReg;
+	private String regNumber;
+	private String billNumber;
+	private Long totalAmount;
+	private String amountOption;
+
+	public String getAmountOption() {
+		return amountOption;
+	}
+
+	public void setAmountOption(String amountOption) {
+		this.amountOption = amountOption;
+	}
+
+	public Long getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(Long totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 
 	public String getBillerLabel() {
 		return billerLabel;
@@ -174,6 +208,129 @@ public class BillPaymentPerformBean implements Serializable {
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	public String getTarif() {
+		return tarif;
+	}
+
+	public void setTarif(String tarif) {
+		this.tarif = tarif;
+	}
+
+	public String getDaya() {
+		return daya;
+	}
+
+	public void setDaya(String daya) {
+		this.daya = daya;
+	}
+
+	public String getMaterai() {
+		return materai;
+	}
+
+	public void setMaterai(String materai) {
+		this.materai = materai;
+	}
+
+	public String getPpn() {
+		return ppn;
+	}
+
+	public void setPpn(String ppn) {
+		this.ppn = ppn;
+	}
+
+	public String getPpj() {
+		return ppj;
+	}
+
+	public void setPpj(String ppj) {
+		this.ppj = ppj;
+	}
+
+	public String getAngsuran() {
+		return angsuran;
+	}
+
+	public void setAngsuran(String angsuran) {
+		this.angsuran = angsuran;
+	}
+
+	public String getTokenAmount() {
+		return tokenAmount;
+	}
+
+	public void setTokenAmount(String tokenAmount) {
+		this.tokenAmount = tokenAmount;
+	}
+
+	public String getKwh() {
+		return kwh;
+	}
+
+	public void setKwh(String kwh) {
+		this.kwh = kwh;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getMonthYear() {
+		return monthYear;
+	}
+
+	public void setMonthYear(String monthYear) {
+		this.monthYear = monthYear;
+	}
+
+	public String getStdMeter() {
+		return stdMeter;
+	}
+
+	public void setStdMeter(String stdMeter) {
+		this.stdMeter = stdMeter;
+	}
+
+	public String getDateReg() {
+		return dateReg;
+	}
+
+	public void setDateReg(String dateReg) {
+		this.dateReg = dateReg;
+	}
+
+	public String getRegNumber() {
+		return regNumber;
+	}
+
+	public void setRegNumber(String regNumber) {
+		this.regNumber = regNumber;
+	}
+
+	public String getBillNumber() {
+		return billNumber;
+	}
+
+	public void setBillNumber(String billNumber) {
+		this.billNumber = billNumber;
+	}
+
+	public String getMeterNumber() {
+		return meterNumber;
+	}
+
+	public void setMeterNumber(String meterNumber) {
+		this.meterNumber = meterNumber;
 	}	
+	
+	
+	
 	
 }
