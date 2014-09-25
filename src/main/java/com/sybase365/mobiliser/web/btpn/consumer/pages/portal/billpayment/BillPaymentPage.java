@@ -242,6 +242,10 @@ public class BillPaymentPage extends BtpnBaseConsumerPortalSelfCarePage {
 		favouriteContainer.setOutputMarkupId(true);
 		form.add(favouriteContainer);
 		
+		
+		
+		
+		
 		// Add the manual container.
 		manualContainer = new WebMarkupContainer("manualContainer");
 		manualContainer.add(new Label("label.billNumber", isTelePhonaBillPay ? "Nomor Handphone":"Nomor Tagihan"));
