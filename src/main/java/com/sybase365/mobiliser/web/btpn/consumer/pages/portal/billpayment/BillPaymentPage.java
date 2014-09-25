@@ -317,6 +317,7 @@ public class BillPaymentPage extends BtpnBaseConsumerPortalSelfCarePage {
 					}
 				}
 				
+				
 				if (finalId == null) {
 					error(BillPaymentPage.this.getLocalizer().getString("product.required", BillPaymentPage.this));
 				} 
