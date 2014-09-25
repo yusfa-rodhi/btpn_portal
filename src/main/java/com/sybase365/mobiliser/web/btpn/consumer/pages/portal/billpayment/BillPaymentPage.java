@@ -427,7 +427,7 @@ public class BillPaymentPage extends BtpnBaseConsumerPortalSelfCarePage {
 						billPayBean.setTxnId("1");
 						billPayBean.setFeeCurrency(response2.getFeeCurrency());
 						
-						setResponsePage(new BillPaymentConfirmPage(billPayBean));
+						switchPanel(billPayBean);
 					}
 					else{
 						error(MobiliserUtils.errorMessage(response2.getResponseCode(), response2.getResponseDesc(), getLocalizer(), this));
@@ -443,5 +443,20 @@ public class BillPaymentPage extends BtpnBaseConsumerPortalSelfCarePage {
 			error(getLocalizer().getString("error.exception", this));
 		}
 	}
-	
+	public void switchPanel (BillPaymentPerformBean billPayBean) {
+		switch (Integer.parseInt(billPayBean.getBillerId())) {
+		case 91901:
+			setResponsePage(new BillPaymentPlnPrePaidAmountPage(billPayBean));
+			break;
+		/*case 91951:
+			setResponsePage(new BillPaymentPlnPostPaidConfirmPage(billPayBean));
+			break;
+		case 91999:
+			setResponsePage(new BillPaymentPlnNonTagListConfirmPage(billPayBean));
+			break;*/
+		default :
+			setResponsePage(new BillPaymentConfirmPage(billPayBean));
+			break;
+		}
+	}
 }

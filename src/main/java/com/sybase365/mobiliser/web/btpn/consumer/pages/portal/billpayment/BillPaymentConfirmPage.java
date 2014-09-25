@@ -5,8 +5,10 @@ import id.co.btpn.corp.dev.appmdwdev02.com_btpn_biller_ws_provider.btpnbillerwsb
 import id.co.btpn.corp.dev.appmdwdev02.com_btpn_biller_ws_provider.btpnbillerwsbillpayment.PaymentBillerResponse;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.transform.TransformerException;
@@ -60,13 +62,99 @@ public class BillPaymentConfirmPage extends BtpnBaseConsumerPortalSelfCarePage {
 		this.billPayBean = billPayBean;
 		billPayConsumerNameList = Arrays.asList(this.getCustomerPortalPrefsConfig().getPlnPrePaidNosForCustomerName()
 			.split(","));
+		parsingAdditionalData();
 		initPageComponents();
 	}
 
+	/*
+	 * for get data in additional data 1
+	 */
+	
+	public void parsingAdditionalData() {
+		String additionalData = billPayBean.getAdditionalData();
+		Long totalAmount = billPayBean.getBillAmount() + billPayBean.getFeeAmount();
+		switch (Integer.parseInt(billPayBean.getBillerId())) {
+		case 91901:
+			billPayBean.setCustomerName(additionalData.substring(95,120));
+			billPayBean.setMeterNumber(additionalData.substring(7,18));
+			billPayBean.setBillNumber(additionalData.substring(18,30));
+			billPayBean.setTarif(additionalData.substring(120,124).concat("/").concat(additionalData.substring(132,141)));
+			//billPayBean.setDaya(additionalData.substring(132,141));already inculded in Tarif
+			/*
+			 * Data yang dibutuhkan tidak ada di inquiry response
+			billPayBean.setMaterai(additionalData.substring(154,164));
+			billPayBean.setPpn(additionalData.substring(165,175));
+			billPayBean.setPpj(additionalData.substring(176,186));
+			billPayBean.setAngsuran(additionalData.substring(187,197));
+			billPayBean.setTokenAmount(additionalData.substring(198,210));
+			billPayBean.setKwh(additionalData.substring(211,221));
+			billPayBean.setToken(additionalData.substring(221,241));
+			 */
+			break;
+		case 91951:
+			billPayBean.setCustomerName(additionalData.substring(47,72));
+			billPayBean.setBillNumber(additionalData.substring(0,12));
+			billPayBean.setTarif(additionalData.substring(92,96));
+			billPayBean.setDaya(additionalData.substring(96,105));
+			billPayBean.setMonthYear(additionalData.substring(114,120));
+			billPayBean.setTotalAmount(totalAmount);
+			/*
+			 * Data yang dibutuhkan tidak ada di inquiry reponse
+			 * billPayBean.setStdMeter(additionalData.substring(210,218).concat("-").concat(additionalData.substring(218,226)));
+			 */
+			break;
+		case 91999:
+			billPayBean.setCustomerName(additionalData.substring(66,91));
+			billPayBean.setRegNumber(additionalData.substring(0,13));
+			billPayBean.setDateReg(dateFormat(additionalData.substring(28,36)));
+			billPayBean.setBillNumber(additionalData.substring(44,56));
+			break;
+		default:
+		}
+		return ;
+	}
+	
+	/*
+	 * This is for convert the date format
+	 */
+	
+	public String dateFormat(String date){
+		String newDate = null;
+		try {
+			SimpleDateFormat inputFormat  = new SimpleDateFormat("YYYYMMDD");
+	        SimpleDateFormat outputFormat = new SimpleDateFormat("ddMMMYY");
+
+	        Date parsedDate = inputFormat.parse(date);
+	        System.out.println(outputFormat.format(parsedDate));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return newDate;
+	}
+	
 	/**
 	 * This is the init page components for Bill Pay Perform page.
 	 */
 	public void initPageComponents() {
+		
+		boolean showMeterID 	= false;
+		boolean showBillerID 	= false;
+		boolean showRegID		= false;
+		boolean fillMeterID		= false;
+		boolean fillBillerID 	= false;
+		boolean fillRegID		= false;
+		if(billPayBean.getBillerId().equals("91901")) { //prepaid
+			showMeterID 	= true;
+			showBillerID 	= true;
+			fillMeterID		= true;
+			fillBillerID	= true;
+		} else if(billPayBean.getBillerId().equals("91951")) { //postpaid
+			showBillerID 	= true;
+			fillBillerID	= true;
+		} else if(billPayBean.getBillerId().equals("91999")) { //nontaglis
+			showRegID		= true;
+			fillRegID		= true;
+		}
 		
 		final Form<BillPaymentConfirmPage> form = new Form<BillPaymentConfirmPage>("confirmBillPay",
 			new CompoundPropertyModel<BillPaymentConfirmPage>(this));
@@ -75,11 +163,18 @@ public class BillPaymentConfirmPage extends BtpnBaseConsumerPortalSelfCarePage {
 		form.add(new Label("billPayBean.productLabel"));
 		form.add(new Label("billPayBean.billAmount"));
 		form.add(new AmountLabel("billPayBean.feeAmount"));
-		final boolean showCustomerName = billPayConsumerNameList.contains(billPayBean.getProductId());
-		form.add(new Label("label.customer.name", getLocalizer().getString("label.customer.name", this))
-			.setVisible(showCustomerName)); 
-		form.add(new Label("billPayBean.customerName").setVisible(showCustomerName));
+		final boolean showNameandBillNumber = billPayConsumerNameList.contains(billPayBean.getBillerId());
+		form.add(new Label("label.customer.name", getLocalizer().getString("label.customer.name", this)).setVisible(showNameandBillNumber)); 
+		form.add(new Label("billPayBean.customerName").setVisible(showNameandBillNumber));
+		form.add(new Label("label.meter.number", getLocalizer().getString("label.meter.number", this)).setVisible(showMeterID));
+		form.add(new Label("billPayBean.meterNumber").setVisible(fillMeterID));
+		form.add(new Label("label.bill.number", getLocalizer().getString("label.bill.number", this)).setVisible(showBillerID));
+		form.add(new Label("billPayBean.billNumber").setVisible(fillBillerID));
+		form.add(new Label("label.reg.number", getLocalizer().getString("label.reg.number", this)).setVisible(showRegID));
+		form.add(new Label("billPayBean.regNumber").setVisible(fillRegID));
+		
 		form.add(new PasswordTextField("billPayBean.pin").add(new ErrorIndicator()));
+		
 		addSubmitButton(form);
 		
 		add(form);
