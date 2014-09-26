@@ -128,6 +128,9 @@ public class BtpnConstants {
 	public static final String PRIV_UI_MANAGE_FEE_APPROVAL = "UI_MANAGE_FEE_APPROVAL";
 
 	public static final String PRIV_UI_MANAGE_AIRTIME_TOPUP_FEE = "UI_MANAGE_AIRTIME_TOPUP_FEE";
+	
+	//add for bill payment pln bank portal
+	public static final String PRIV_UI_BANK_PORTAL_BILL_PAYMENT = "UI_BANK_PORTAL_BILL_PAYMENT";
 
 	public static final String PRIV_UI_MANAGE_BILL_PAYMENT_FEE = "UI_MANAGE_BILL_PAYMENT_FEE";
 
@@ -653,7 +656,13 @@ public class BtpnConstants {
 	public static final String RESOURCE_BUBDLE_SI_FT_TYPE = "siFundTransferType";
 
 	public static final String BILLPAYMENT_MANUALLY = "Manual";
+	
+	public static final String BILLPAYMENT_AMOUNT = "Amount";
+	
+	public static final String BILLPAYMENT_UNSOLD1 = "Unsold 1";
 
+	public static final String BILLPAYMENT_UNSOLD2 = "Unsold 2";
+	
 	public static final String BILLPAYMENT_FAVLIST = "Favourite";
 
 	public static final String BILLPAYMENT_CURRENCY = "IDR";
